@@ -16,6 +16,15 @@ Further, for debugging purposes, you may wish to inspect the intermediate files.
 
 To build a single circuit during development, you can use the `--circuit` CLI parameter. For example, if you make a change to `hash.circom` and you want to _only_ rebuild that, you can run `yarn circom:dev --circuit hash`.
 
+```bash
+# calculate witness
+npx snarkjs wtns calculate circuits/transfer.wasm circuits/transfer.json circuits/transfer.wtns
+
+# generate proof
+npx snarkjs groth16 prove circuits/transfer.zkey circuits/transfer.wtns circuits/proof.json circuits/public.json
+```
+
+
 ## Production builds
 
 ### circom
