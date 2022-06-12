@@ -5,10 +5,25 @@ import "./interfaces/IVerifier.sol";
 
 contract ZKToken {
     IVerifier verifier;
-    mapping(address => uint256) balanceHashes;
 
-    constructor(address _verifier) {
+    string public name;
+    string public symbol;
+    uint8 public immutable decimals;
+
+    mapping(address => uint256) public balanceHashes;
+
+    constructor(
+        address _verifier,
+        string memory _name,
+        string memory _symbol,
+        uint8 _decimals,
+        uint256 initialSupplyHash
+    ) {
         verifier = IVerifier(_verifier);
+        name = _name;
+        symbol = _symbol;
+        decimals = _decimals;
+        balanceHashes[msg.sender] = initialSupplyHash;
     }
 
     function transfer(
