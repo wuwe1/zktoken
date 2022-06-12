@@ -35,13 +35,11 @@ contract ZKToken {
         uint256[2] memory c,
         address to
     ) external {
-        uint256 hashSenderBalanceBefore = balanceHashes[msg.sender];
-        uint256 hashReceiverBalanceBefore = balanceHashes[to];
         uint256[5] memory input;
         input[0] = hashValue;
-        input[1] = hashSenderBalanceBefore;
+        input[1] = balanceHashes[msg.sender];
         input[2] = hashSenderBalanceAfter;
-        input[3] = hashReceiverBalanceBefore;
+        input[3] = balanceHashes[to];
         input[4] = hashReceiverBalanceAfter;
 
         require(verifier.verifyProof(a, b, c, input));

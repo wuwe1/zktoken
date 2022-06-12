@@ -17,7 +17,7 @@ contract ContractTest is Test {
 
     function setUp() public {
         verifier = new Verifier();
-        token = new ZKToken(address(verifier), "test", "TST", 18);
+        token = new ZKToken(address(verifier), "test", "TST", 18, 0);
         alice = vm.addr(alicePk);
         bob = vm.addr(bobPk);
         vm.label(alice, "alice");
@@ -54,7 +54,7 @@ contract ContractTest is Test {
         assertTrue(verifier.verifyProof(a, b, c, input));
     }
 
-    function testTransfer() public {
+    function test_Transfer() public {
         uint256[2] memory a;
         uint256[2][2] memory b;
         uint256[2] memory c;
