@@ -16,11 +16,6 @@ template Main() {
 
   signal senderBalanceAfter;
   signal receiverBalanceAfter;
-  signal MiMChashValue;
-  signal MiMChashSenderBalanceBefore;
-  signal MiMChashSenderBalanceAfter;
-  signal MiMChashReceiverBalanceBefore;
-  signal MiMChashReceiverBalanceAfter;
 
   senderBalanceAfter <== senderBalanceBefore - value;
   receiverBalanceAfter <== receiverBalanceBefore + value;
