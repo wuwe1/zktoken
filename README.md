@@ -22,6 +22,9 @@ npx snarkjs wtns calculate circuits/transfer.wasm circuits/transfer.json circuit
 
 # generate proof
 npx snarkjs groth16 prove circuits/transfer.zkey circuits/transfer.wtns circuits/proof.json circuits/public.json
+
+# verify proof
+npx snarkjs groth16 verify circuits/transfer.vkey.json circuits/public.json circuits/proof.json
 ```
 
 

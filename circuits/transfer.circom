@@ -1,6 +1,6 @@
 pragma circom 2.0.3;
 
-include "../node_modules/circomlib/circuits/mimcsponge.circom";
+include "../node_modules/circomlib/circuits/poseidon.circom";
 include "../node_modules/circomlib/circuits/comparators.circom";
 
 template Main() {
@@ -29,42 +29,37 @@ template Main() {
   senderBalanceGreaterThan.in[0] <== senderBalanceBefore;
   senderBalanceGreaterThan.in[1] <== value;
 
-  component mimcValue = MiMCSponge(1,220,1);
-  mimcValue.ins[0] <== value;
-  mimcValue.k <== 0;
-  MiMChashValue <== mimcValue.outs[0];
+  component valueHasher = Poseidon(1);
+  valueHasher.inputs[0] <== value;
+  MiMChashValue <== valueHasher.out;
   component valueIsEqual = IsEqual();
   valueIsEqual.in[0] <== MiMChashValue;
   valueIsEqual.in[1] <== hashValue;
 
-  component mimcSenderBalanceBefore = MiMCSponge(1,220,1);
-  mimcSenderBalanceBefore.ins[0] <== senderBalanceBefore;
-  mimcSenderBalanceBefore.k <== 0;
-  MiMChashSenderBalanceBefore <== mimcSenderBalanceBefore.outs[0];
+  component senderBalanceBeforeHasher = Poseidon(1);
+  senderBalanceBeforeHasher.inputs[0] <== senderBalanceBefore;
+  MiMChashSenderBalanceBefore <== senderBalanceBeforeHasher.out;
   component senderBalanceBeforeIsEqual = IsEqual();
   senderBalanceBeforeIsEqual.in[0] <== MiMChashSenderBalanceBefore;
   senderBalanceBeforeIsEqual.in[1] <== hashSenderBalanceBefore;
 
-  component mimcSenderBalanceAfter = MiMCSponge(1,220,1);
-  mimcSenderBalanceAfter.ins[0] <== senderBalanceAfter;
-  mimcSenderBalanceAfter.k <== 0;
-  MiMChashSenderBalanceAfter <== mimcSenderBalanceAfter.outs[0];
+  component senderBalanceAfterHasher = Poseidon(1);
+  senderBalanceAfterHasher.inputs[0] <== senderBalanceAfter;
+  MiMChashSenderBalanceAfter <== senderBalanceAfterHasher.out;
   component senderBalanceAfterIsEqual = IsEqual();
   senderBalanceAfterIsEqual.in[0] <== MiMChashSenderBalanceAfter;
   senderBalanceAfterIsEqual.in[1] <== hashSenderBalanceAfter; 
 
-  component mimcReceiverBalanceBefore = MiMCSponge(1,220,1);
-  mimcReceiverBalanceBefore.ins[0] <== receiverBalanceBefore;
-  mimcReceiverBalanceBefore.k <== 0;
-  MiMChashReceiverBalanceBefore <== mimcReceiverBalanceBefore.outs[0];
+  component mimcReceiverBalanceBefore = Poseidon(1);
+  mimcReceiverBalanceBefore.inputs[0] <== receiverBalanceBefore;
+  MiMChashReceiverBalanceBefore <== mimcReceiverBalanceBefore.out;
   component receiverBalanceBeforeIsEqual = IsEqual();
   receiverBalanceBeforeIsEqual.in[0] <== MiMChashReceiverBalanceBefore;
   receiverBalanceBeforeIsEqual.in[1] <== hashReceiverBalanceBefore;
 
-  component mimcReceiverBalanceAfter = MiMCSponge(1,220,1);
-  mimcReceiverBalanceAfter.ins[0] <== receiverBalanceAfter;
-  mimcReceiverBalanceAfter.k <== 0;
-  MiMChashReceiverBalanceAfter <== mimcReceiverBalanceAfter.outs[0];
+  component mimcReceiverBalanceAfter = Poseidon(1);
+  mimcReceiverBalanceAfter.inputs[0] <== receiverBalanceAfter;
+  MiMChashReceiverBalanceAfter <== mimcReceiverBalanceAfter.out;
   component receiverBalanceAfterIsEqual = IsEqual();
   receiverBalanceAfterIsEqual.in[0] <== MiMChashReceiverBalanceAfter;
   receiverBalanceAfterIsEqual.in[1] <== hashReceiverBalanceAfter;
