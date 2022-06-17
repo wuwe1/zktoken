@@ -31,38 +31,23 @@ template Main() {
 
   component valueHasher = Poseidon(1);
   valueHasher.inputs[0] <== value;
-  MiMChashValue <== valueHasher.out;
-  component valueIsEqual = IsEqual();
-  valueIsEqual.in[0] <== MiMChashValue;
-  valueIsEqual.in[1] <== hashValue;
+  valueHasher.out === hashValue;
 
   component senderBalanceBeforeHasher = Poseidon(1);
   senderBalanceBeforeHasher.inputs[0] <== senderBalanceBefore;
-  MiMChashSenderBalanceBefore <== senderBalanceBeforeHasher.out;
-  component senderBalanceBeforeIsEqual = IsEqual();
-  senderBalanceBeforeIsEqual.in[0] <== MiMChashSenderBalanceBefore;
-  senderBalanceBeforeIsEqual.in[1] <== hashSenderBalanceBefore;
+  senderBalanceBeforeHasher.out === hashSenderBalanceBefore;
 
   component senderBalanceAfterHasher = Poseidon(1);
   senderBalanceAfterHasher.inputs[0] <== senderBalanceAfter;
-  MiMChashSenderBalanceAfter <== senderBalanceAfterHasher.out;
-  component senderBalanceAfterIsEqual = IsEqual();
-  senderBalanceAfterIsEqual.in[0] <== MiMChashSenderBalanceAfter;
-  senderBalanceAfterIsEqual.in[1] <== hashSenderBalanceAfter; 
+  senderBalanceAfterHasher.out === hashSenderBalanceAfter;
 
-  component mimcReceiverBalanceBefore = Poseidon(1);
-  mimcReceiverBalanceBefore.inputs[0] <== receiverBalanceBefore;
-  MiMChashReceiverBalanceBefore <== mimcReceiverBalanceBefore.out;
-  component receiverBalanceBeforeIsEqual = IsEqual();
-  receiverBalanceBeforeIsEqual.in[0] <== MiMChashReceiverBalanceBefore;
-  receiverBalanceBeforeIsEqual.in[1] <== hashReceiverBalanceBefore;
+  component receiverBalanceBeforeHasher = Poseidon(1);
+  receiverBalanceBeforeHasher.inputs[0] <== receiverBalanceBefore;
+  receiverBalanceBeforeHasher.out === hashReceiverBalanceBefore;
 
-  component mimcReceiverBalanceAfter = Poseidon(1);
-  mimcReceiverBalanceAfter.inputs[0] <== receiverBalanceAfter;
-  MiMChashReceiverBalanceAfter <== mimcReceiverBalanceAfter.out;
-  component receiverBalanceAfterIsEqual = IsEqual();
-  receiverBalanceAfterIsEqual.in[0] <== MiMChashReceiverBalanceAfter;
-  receiverBalanceAfterIsEqual.in[1] <== hashReceiverBalanceAfter;
+  component receiverBalanceAfterHasher = Poseidon(1);
+  receiverBalanceAfterHasher.inputs[0] <== receiverBalanceAfter;
+  receiverBalanceAfterHasher.out === hashReceiverBalanceAfter;
 }
 
 component main {public [hashValue, hashSenderBalanceBefore, hashSenderBalanceAfter, hashReceiverBalanceBefore, hashReceiverBalanceAfter]} = Main();
