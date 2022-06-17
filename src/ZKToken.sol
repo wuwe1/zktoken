@@ -3,6 +3,12 @@ pragma solidity 0.8.10;
 
 import "./interfaces/IVerifier.sol";
 
+struct Proof {
+    uint256[2] a;
+    uint256[2][2] b;
+    uint256[2] c;
+}
+
 contract ZKToken {
     IVerifier verifier;
 
@@ -30,10 +36,8 @@ contract ZKToken {
         uint256 hashValue,
         uint256 hashSenderBalanceAfter,
         uint256 hashReceiverBalanceAfter,
-        uint256[2] memory a,
-        uint256[2][2] memory b,
-        uint256[2] memory c,
-        address to
+        address to,
+        Proof calldata proof
     ) external {
         uint256[5] memory input;
         input[0] = hashValue;
@@ -42,7 +46,7 @@ contract ZKToken {
         input[3] = balanceHashes[to];
         input[4] = hashReceiverBalanceAfter;
 
-        require(verifier.verifyProof(a, b, c, input));
+        require(verifier.verifyProof(proof.a, proof.b, proof.c, input));
 
         balanceHashes[msg.sender] = hashSenderBalanceAfter;
         balanceHashes[to] = hashReceiverBalanceAfter;
